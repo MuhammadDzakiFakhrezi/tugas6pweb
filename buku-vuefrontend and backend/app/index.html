@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Aplikasi Buku</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id='app'>
+<div class="container">
+  <h2>Aplikasi Buku</h2>
+  
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#menu1">Buku</a></li>
+    <li><a data-toggle="tab" href="#menu2">Kategori</a></li>
+    <li><a data-toggle="tab" href="#menu3">Anggota</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="menu1" class="tab-pane fade">
+      <h3>Buku</h3>
+        <div class="container p-3">
+            <a href="http://127.0.0.1/buku-backend/app/add.html" class="btn btn-success">Tambah</a>
+            <table class="table striped text-left mi-table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Kode</th>
+                        <th scope="col">Judul</th>
+                        <th scope="col">Pengarang</th>
+                        <th scope="col">Penerbit</th>
+                        <th scope="col">Tahun</th>
+                        <th scope="col">Tanggal Input</th>
+                        <th scope="col">Harga</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr 
+                        v-for="b in buku"
+                        :key="b.id"
+                    >
+                        <th scope="row">{{b.id}}</th>
+                        <td>{{b.kode}}</td>
+                        <td>{{b.judul}}</td>
+                        <td>{{b.pengarang}}</td>
+                        <td>{{b.penerbit}}</td>
+                        <td>{{b.tahun}}</td>
+                        <td>{{b.tanggal_input}}</td>
+                        <td>{{b.harga}}</td>
+                        <td>
+                            <button class="btn btn-primary">Edit</button>
+                            <button class="btn btn-danger" @click="deleteBuku(b.kode)">Delete</button>
+                            <button class="btn btn-secondary">View</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Kategori</h3>
+        <div class="container p-3">
+            <a href="http://127.0.0.1/buku-backend/app/add.html" class="btn btn-success">Tambah</a>
+            <table class="table striped text-left mi-table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Kode</th>
+                        <th scope="col">Kategori</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr 
+                        v-for="b in kategori"
+                        :key="b.id"
+                    >
+                        <th scope="row">{{b.id}}</th>
+                        <td>{{b.kode}}</td>
+                        <td>{{b.kategori}}</td>
+                        <td>
+                            <button class="btn btn-primary">Edit</button>
+                            <button class="btn btn-danger" @click="deleteKategori(b.kode)">Delete</button>
+                            <button class="btn btn-secondary">View</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="menu3" class="tab-pane fade">
+      <h3>Anggota</h3>
+        <div class="container p-3">
+            <a href="http://127.0.0.1/buku-backend//app/add.html" class="btn btn-success">Tambah</a>
+            <table class="table striped text-left mi-table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nomor</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Jenis Kelamin</th>
+                        <th scope="col">Alamat</th>
+                        <th scope="col">No Hp</th>
+                        <th scope="col">Tanggal Terdaftar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr 
+                        v-for="b in anggota"
+                        :key="b.id"
+                    >
+                        <th scope="row">{{b.id}}</th>
+                        <td>{{b.nomor}}</td>
+                        <td>{{b.nama}}</td>
+                        <td>{{b.jenis_kelamin}}</td>
+                        <td>{{b.alamat}}</td>
+                        <td>{{b.no_hp}}</td>
+                        <td>{{b.tanggal_terdaftar}}</td>
+                        <td>
+                            <button class="btn btn-primary">Edit</button>
+                            <button class="btn btn-danger" @click="deleteAnggota(b.nomor)">Delete</button>
+                            <button class="btn btn-secondary">View</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+</div>
+    
+</body>
+<script>
+const api = "http://127.0.0.1/buku-backend/"
+var app = new Vue({
+  el: '#app',
+  data: {
+    dataBuku : {
+        name : '',
+        kode : '',
+        kode_kategori : '',
+        judul : '',
+        pengarang : '',
+        penerbit : '',
+        tahun : '',
+        tanggal_input : '',
+        harga : '',
+        file_cover : '',
+    },
+    dataAnggota : {
+        nomor : '',
+        nama : '',
+        jenis_kelamin : '',
+        alamat : '',
+        np_hp : '',
+        tanggal_terdaftar : '',
+    },
+    dataKategori : {
+        kode : '',
+        kategori : '',
+    },
+    buku: [],
+    kategori : [],
+    anggota : [],
+  },
+  mounted: function () {
+    console.log('Aplikasi Buku !')
+    this.getBuku()
+    this.getAnggota()
+    this.getKategori()
+  },
+
+  methods: {
+    getBuku: function(){
+        axios.get(api + 'selectBuku.php')
+        .then(function (response) {
+            console.log(response.data);
+            app.buku = response.data;
+
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+    getKategori: function(){
+        axios.get(api + 'selectKategori.php')
+        .then(function (response) {
+            console.log(response.data);
+            app.kategori = response.data;
+
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+    getAnggota: function(){
+        axios.get(api + 'selectAnggota.php')
+        .then(function (response) {
+            console.log(response.data);
+            app.anggota = response.data;
+
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+    deleteBuku: function(kd){
+        console.log(kd)
+        console.log({ kode: kd });
+        axios.post(api + 'deleteBukubyKode.php', {
+            kode: kd
+        })
+        .then(function (response) {
+            console.log(response.data);
+        // window.location.href = "./app/";
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+    deleteAnggota: function(kd){
+        console.log(kd)
+        console.log({ kode: kd });
+        axios.post(api + 'deleteAnggotabyNomor.php', {
+            kode: kd
+        })
+        .then(function (response) {
+            console.log(response.data);
+        // window.location.href = "./app/";
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+    deleteKategori: function(kd){
+        console.log(kd)
+        console.log({ kode: kd });
+        axios.post(api + 'deleteKategoribyKode.php', {
+            kode: kd
+        })
+        .then(function (response) {
+            console.log(response.data);
+        // window.location.href = "./app/";
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+    resetForm: function(){
+    }
+  }
+})    
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</html>
