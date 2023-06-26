@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Aplikasi Buku</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id='app'>
+<div class="container">
+  <h2>Aplikasi Buku</h2>
+  
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#menu1">Buku</a></li>
+    <li><a data-toggle="tab" href="#menu2">Kategori</a></li>
+    <li><a data-toggle="tab" href="#menu3">Anggota</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="menu1" class="tab-pane fade">
+      <h3>Tambah Buku</h3>
+        <div class="container p-3">
+            <form>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="nameBuku" class="form-control" v-model="dataBuku.name">
+                </div>
+                <div class="form-group">
+                    <label>Kode</label>
+                    <input type="text" name="kodeBuku" class="form-control" v-model="dataBuku.kode">
+                </div>
+                <div class="form-group">
+                    <label>Kode Kategori</label>
+                    <input type="text" name="kode_kategoriBuku" class="form-control" v-model="dataBuku.kode_kategori">
+                </div>
+                <div class="form-group">
+                    <label>Judul</label>
+                    <input type="text" name="judulBuku" class="form-control" v-model="dataBuku.judul">
+                </div>
+                <div class="form-group">
+                    <label>Pengarang</label>
+                    <input type="text" name="pengarangBuku" class="form-control" v-model="dataBuku.pengarang">
+                </div>
+                <div class="form-group">
+                    <label>Penerbit</label>
+                    <input type="text" name="penerbitBuku" class="form-control" v-model="dataBuku.penerbit">
+                </div>
+                </br>
+                <div class="form-group">
+                    <label>Tahun</label>
+                    <input type="number" name="tahunBuku" class="form-control" v-model="dataBuku.tahun">
+                </div>
+                <div class="form-group">
+                    <label>Tanggal Input</label>
+                    <input type="date" name="tanggal_inputBuku" class="form-control" v-model="dataBuku.tanggal_input">
+                </div>
+                <div class="form-group">
+                    <label>Harga</label>
+                    <input type="number" name="hargaBuku" class="form-control" v-model="dataBuku.harga">
+                </div>
+                <div class="form-group">
+                    <label>File Cover</label>
+                    <input type="text" name="file_coverBuku" class="form-control" v-model="dataBuku.file_cover">
+                </div>
+                <input type="button" @click="createBuku()" value="Add" class="btn btn-default">
+            </form>            
+        </div>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+        <h3>Tambah Kategori</h3>
+        <div class="container p-3">
+            <form>
+                <div class="form-group">
+                    <label>Kode</label>
+                    <input type="text" name="kodeKategori" class="form-control" v-model="dataKategori.kode">
+                </div>
+                <div class="form-group">
+                    <label>Nama Kategori</label>
+                    <input type="text" name="kategoriKategori" class="form-control" v-model="dataKategori.kategori">
+                </div>
+                <input type="button" @click="createKategori()" value="Add" class="btn btn-default">
+            </form>            
+        </div>
+    </div>
+    <div id="menu3" class="tab-pane fade">
+      <h3>Tambah Anggota</h3>
+        <div class="container p-3">
+            <form>
+                <div class="form-group">
+                    <label>Nomor</label>
+                    <input type="text" name="nomorAnggota" class="form-control" v-model="dataAnggota.nomor">
+                </div>
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" name="namaAnggota" class="form-control" v-model="dataAnggota.nama">
+                </div>
+                <div class="form-group">
+                    <label>Jenis Kelamin</label>
+                    <input type="text" name="jenis_kelaminAnggota" class="form-control" v-model="dataAnggota.jenis_kelamin">
+                </div>
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <input type="text" name="alamatAnggota" class="form-control" v-model="dataAnggota.alamat">
+                </div>
+                <div class="form-group">
+                    <label>No Hp</label>
+                    <input type="text" name="np_hpAnggota" class="form-control" v-model="dataAnggota.no_hp">
+                </div>
+                <div class="form-group">
+                    <label>Tanggal Terdaftar</label>
+                    <input type="date" name="tanggal_terdaftarAnggota" class="form-control" v-model="dataAnggota.tanggal_terdaftar">
+                </div>
+                <input type="button" @click="createAnggota()" value="Add" class="btn btn-default">
+            </form>    
+        </div>
+    </div>
+  </div>
+</div>
+    
+</body>
+<script>
+const api = "http://127.0.0.1/buku-backend/"
+var app = new Vue({
+  el: '#app',
+  data: {
+    dataBuku : {
+        name : '',
+        kode : '',
+        kode_kategori : '',
+        judul : '',
+        pengarang : '',
+        penerbit : '',
+        tahun : '',
+        tanggal_input : '',
+        harga : '',
+        file_cover : '',
+    },
+    dataAnggota : {
+        nomor : '',
+        nama : '',
+        jenis_kelamin : '',
+        alamat : '',
+        n_hp : '',
+        tanggal_terdaftar : '',
+    },
+    dataKategori : {
+        kode : '',
+        kategori : '',
+    },
+  },
+  mounted: function () {
+    console.log('Aplikasi Buku !')
+  },
+
+  methods: {
+    createBuku: function(){
+        console.log("Create buku!")
+
+        let formData = new FormData();
+        console.log("name:", this.name)
+        formData.append('nameBuku', this.dataBuku.name)
+        formData.append('kodeBuku', this.dataBuku.kode)
+        formData.append('kode_kategoriBuku', this.dataBuku.kode_kategori)
+        formData.append('judulBuku', this.dataBuku.judul)
+        formData.append('pengarangBuku', this.dataBuku.pengarang)
+        formData.append('penerbitBuku', this.dataBuku.penerbit)
+        formData.append('tahunBuku', this.dataBuku.tahun)
+        formData.append('tanggal_inputBuku', this.dataBuku.tanggal_input)
+        formData.append('hargaBuku', this.dataBuku.harga)
+        formData.append('file_coverBuku', this.dataBuku.file_cover)
+
+        var bk = {};
+        formData.forEach(function(value, key){
+            bk[key] = value;
+        });
+
+        axios({
+            method: 'post',
+            url: api + 'insertBuku.php',
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
+            //handle success
+            console.log(response)
+            // app.resetForm();
+            window.location.href = "http://127.0.0.1/buku-backend/app/";
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response)
+        });
+    },
+    createAnggota: function(){
+        let formData = new FormData();
+        formData.append('nomorAnggota', this.dataAnggota.nomor)
+        formData.append('namaAnggota', this.dataAnggota.nama)
+        formData.append('jenis_kelaminAnggota', this.dataAnggota.jenis_kelamin)
+        formData.append('alamatAnggota', this.dataAnggota.alamat)
+        formData.append('no_hpAnggota', this.dataAnggota.no_hp)
+        formData.append('tanggal_terdaftarAnggota', this.dataAnggota.tanggal_terdaftar)
+
+        var bk = {};
+        formData.forEach(function(value, key){
+            bk[key] = value;
+        });
+
+        axios({
+            method: 'post',
+            url: api + 'insertAnggota.php',
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
+            //handle success
+            console.log(response)
+            window.location.href = "http://127.0.0.1/buku-backend/app/";
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response)
+        });
+    },
+    createKategori: function(){
+        let formData = new FormData();
+        formData.append('kodeKategori', this.dataKategori.kode)
+        formData.append('kategoriKategori', this.dataKategori.kategori)
+
+        var bk = {};
+        formData.forEach(function(value, key){
+            bk[key] = value;
+        });
+
+        axios({
+            method: 'post',
+            url: api + 'insertKategori.php',
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
+            //handle success
+            console.log(response)
+            window.location.href = "http://127.0.0.1/buku-backend/app/";
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response)
+        });
+    },
+  }
+})    
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</html>
